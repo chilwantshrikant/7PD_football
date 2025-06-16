@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Football Tournament Leaderboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+    h1 { text-align: center; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+    th { background-color: #007BFF; color: white; }
+    input[type="number"] { width: 60px; }
+    .controls { text-align: center; margin-top: 20px; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<h1>Football Tournament Leaderboard</h1>
+
+<table id="leaderboard">
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Team</th>
+      <th>P</th>
+      <th>W</th>
+      <th>L</th>
+      <th>Pts</th>
+      <th>GF</th>
+      <th>GA</th>
+      <th>GD</th>
+    </tr>
+  </thead>
+  <tbody id="teams">
+    <tr>
+      <td></td><td contenteditable="true">Team A</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+    </tr>
+    <tr>
+      <td></td><td contenteditable="true">Team B</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+    </tr>
+    <tr>
+      <td></td><td contenteditable="true">Team C</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+    </tr>
+    <tr>
+      <td></td><td contenteditable="true">Team D</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+    </tr>
+    <tr>
+      <td></td><td contenteditable="true">Team E</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="controls">
+  <h2>Update Match Result</h2>
+  <label>Team 1:
+    <select id="team1"></select>
+  </label>
+  <input type="number" id="team1Score" min="0" placeholder="Score">
+  <label>Team 2:
+    <select id="team2"></select>
+  </label>
+  <input type="number" id="team2Score" min="0" placeholder="Score">
+  <button onclick="updateMatch()">Submit Result</button>
+</div>
+
+<script>
+  const tableBody = document.getElementById('teams');
+  const team1Select = document.getElementById('team1');
+  const team2Select = document.getElementById('team2');
+
+  function populateTeamDropdowns() {
+    [...tableBody.rows].forEach(row => {
+      const teamName = row.cells[1].textContent;
+      const option1 = new Option(teamName, teamName);
+      const option2 = new Option(teamName, teamName);
+      team1Select.add(option1.cloneNode(true));
+      team2Select.add(option2.cloneNode(true));
+    });
+  }
+
+  function updateMatch() {
+    const t1 = team1Select.value;
+    const t2 = team2Select.value;
+    const s1 = parseInt(document.getElementById('team1Score').value);
+    const s2 = parseInt(document.getElementById('team2Score').value);
+
+    if (t1 === t2 || isNaN(s1) || isNaN(s2)) {
+      alert('Invalid input');
+      return;
+    }
+
+    for (let row of tableBody.rows) {
+      const teamName = row.cells[1].textContent;
+      if (teamName === t1 || teamName === t2) {
+        const played = parseInt(row.cells[2].textContent) + 1;
+        let win = parseInt(row.cells[3].textContent);
+        let loss = parseInt(row.cells[4].textContent);
+        let points = parseInt(row.cells[5].textContent);
+        let gf = parseInt(row.cells[6].textContent);
+        let ga = parseInt(row.cells[7].textContent);
+
+        if (teamName === t1) {
+          gf += s1; ga += s2;
+          if (s1 > s2) { win++; points += 3; }
+          else if (s1 < s2) { loss++; }
+          else { points += 1; }
+        } else {
+          gf += s2; ga += s1;
+          if (s2 > s1) { win++; points += 3; }
+          else if (s2 < s1) { loss++; }
+          else { points += 1; }
+        }
+
+        row.cells[2].textContent = played;
+        row.cells[3].textContent = win;
+        row.cells[4].textContent = loss;
+        row.cells[5].textContent = points;
+        row.cells[6].textContent = gf;
+        row.cells[7].textContent = ga;
+        row.cells[8].textContent = gf - ga;
+      }
+    }
+    sortTable();
+  }
+
+  function sortTable() {
+    const rows = Array.from(tableBody.rows);
+    rows.sort((a, b) => {
+      const ptsDiff = b.cells[5].textContent - a.cells[5].textContent;
+      if (ptsDiff !== 0) return ptsDiff;
+      const gdDiff = b.cells[8].textContent - a.cells[8].textContent;
+      return gdDiff;
+    });
+    tableBody.innerHTML = '';
+    rows.forEach((row, i) => {
+      row.cells[0].textContent = i + 1;
+      tableBody.appendChild(row);
+    });
+  }
+
+  populateTeamDropdowns();
+</script>
+
+</body>
+</html>
