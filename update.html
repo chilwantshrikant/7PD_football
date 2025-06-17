@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Football Leaderboard</title>
+  <title>7PD FPL Leaderboard</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -51,49 +51,31 @@
     th {
       background-color: #222;
       color: white;
-      cursor: pointer;
     }
-    tr.top-1 {
-      background-color: gold;
-      color: black;
-    }
-    tr.top-2 {
-      background-color: silver;
-      color: black;
-    }
-    tr.top-3 {
-      background-color: #cd7f32;
-      color: black;
-    }
-    form {
-      margin-bottom: 20px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 15px;
-      border-radius: 10px;
-    }
-    input, select, button {
-      padding: 8px;
-      font-size: 16px;
-    }
+    tr.top-1 { background-color: gold; color: black; }
+    tr.top-2 { background-color: silver; color: black; }
+    tr.top-3 { background-color: #cd7f32; color: black; }
     @media (max-width: 600px) {
-      table, th, td {
-        font-size: 12px;
-      }
+      table, th, td { font-size: 12px; }
     }
-    .team-members {
-      margin-top: 20px;
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 10px;
-      border-radius: 10px;
+    input[type="number"] {
+      width: 40px;
+      padding: 4px;
+    }
+    button.score-submit {
+      padding: 4px 8px;
+      margin-left: 6px;
+      font-size: 12px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <h1>Football Tournament</h1>
+  <h1>7PD Football league</h1>
 
   <div class="nav-buttons">
     <button onclick="showSection('leaderboard-section')">Leaderboard</button>
@@ -101,59 +83,32 @@
   </div>
 
   <div id="leaderboard-section">
-    <form id="match-form">
-      <select id="teamA" onchange="updatePlayerDropdowns()">
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-        <option value="D">D</option>
-        <option value="E">E</option>
-      </select>
-      <select id="playerA"></select>
-      <input type="number" id="scoreA" placeholder="Score A" min="0" />
-
-      <select id="teamB" onchange="updatePlayerDropdowns()">
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-        <option value="D">D</option>
-        <option value="E">E</option>
-      </select>
-      <select id="playerB"></select>
-      <input type="number" id="scoreB" placeholder="Score B" min="0" />
-
-      <button type="submit">Submit Match</button>
-    </form>
-
-    <div id="teamA-players" class="team-members"></div>
-    <div id="teamB-players" class="team-members"></div>
-
     <table id="leaderboard">
       <thead>
         <tr>
-          <th onclick="sortTable(0)">Team</th>
-          <th onclick="sortTable(1)">MP</th>
-          <th onclick="sortTable(2)">W</th>
-          <th onclick="sortTable(3)">D</th>
-          <th onclick="sortTable(4)">L</th>
-          <th onclick="sortTable(5)">GF</th>
-          <th onclick="sortTable(6)">GA</th>
-          <th onclick="sortTable(7)">GD</th>
-          <th onclick="sortTable(8)">Points</th>
+          <th>Team</th>
+          <th>MP</th>
+          <th>W</th>
+          <th>D</th>
+          <th>L</th>
+          <th>GF</th>
+          <th>GA</th>
+          <th>GD</th>
+          <th>Points</th>
         </tr>
       </thead>
       <tbody id="leaderboard-body">
-        <tr><td><a href="team.html?team=A" target="_blank">A</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-        <tr><td><a href="team.html?team=B" target="_blank">B</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-        <tr><td><a href="team.html?team=C" target="_blank">C</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-        <tr><td><a href="team.html?team=D" target="_blank">D</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-        <tr><td><a href="team.html?team=E" target="_blank">E</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>A</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>B</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>C</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>D</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>E</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
       </tbody>
     </table>
   </div>
 
   <div id="schedule-section" style="display: none">
-       <table>
+    <table id="schedule-table">
       <thead>
         <tr>
           <th>Week</th>
@@ -162,163 +117,172 @@
           <th>Time</th>
           <th>Match No.</th>
           <th>Fixture</th>
+          <th>Enter Score</th>
         </tr>
       </thead>
-      <tbody>
-        <tr><td>1</td><td>July 5</td><td>Saturday Evening</td><td>8:00 PM</td><td>1</td><td>A vs B</td></tr>
-        <tr><td>1</td><td>July 5</td><td>Saturday Evening</td><td>8:30 PM</td><td>2</td><td>C vs D</td></tr>
-        <tr><td>1</td><td>July 5</td><td>Saturday Evening</td><td>9:00 PM</td><td>3</td><td>E vs A</td></tr>
-        <tr><td>1</td><td>July 5</td><td>Saturday Evening</td><td>9:30 PM</td><td>4</td><td>B vs C</td></tr>
-        <tr><td>1</td><td>July 6</td><td>Sunday Morning</td><td>9:00 AM</td><td>5</td><td>D vs E</td></tr>
-        <tr><td>1</td><td>July 6</td><td>Sunday Morning</td><td>9:30 AM</td><td>6</td><td>A vs C</td></tr>
-        <tr><td>1</td><td>July 6</td><td>Sunday Morning</td><td>10:00 AM</td><td>7</td><td>B vs D</td></tr>
-        <tr><td>1</td><td>July 6</td><td>Sunday Morning</td><td>10:30 AM</td><td>8</td><td>E vs C</td></tr>
-        <tr><td>2</td><td>July 12</td><td>Saturday Evening</td><td>8:00 PM</td><td>9</td><td>A vs D</td></tr>
-        <tr><td>2</td><td>July 12</td><td>Saturday Evening</td><td>8:30 PM</td><td>10</td><td>B vs E</td></tr>
-        <tr><td>2</td><td>July 12</td><td>Saturday Evening</td><td>9:00 PM</td><td>11</td><td>A vs B (reverse)</td></tr>
-        <tr><td>2</td><td>July 12</td><td>Saturday Evening</td><td>9:30 PM</td><td>12</td><td>D vs C (reverse)</td></tr>
-        <tr><td>2</td><td>July 13</td><td>Sunday Morning</td><td>9:00 AM</td><td>13</td><td>A vs E (reverse)</td></tr>
-        <tr><td>2</td><td>July 13</td><td>Sunday Morning</td><td>9:30 AM</td><td>14</td><td>C vs B (reverse)</td></tr>
-        <tr><td>2</td><td>July 13</td><td>Sunday Morning</td><td>10:00 AM</td><td>15</td><td>E vs D (reverse)</td></tr>
-        <tr><td>2</td><td>July 13</td><td>Sunday Morning</td><td>10:30 AM</td><td>16</td><td>C vs A (reverse)</td></tr>
-        <tr><td>3</td><td>July 19</td><td>Saturday Evening</td><td>8:00 PM</td><td>17</td><td>D vs B (reverse)</td></tr>
-        <tr><td>3</td><td>July 19</td><td>Saturday Evening</td><td>8:30 PM</td><td>18</td><td>C vs E (reverse)</td></tr>
-        <tr><td>3</td><td>July 19</td><td>Saturday Evening</td><td>9:00 PM</td><td>19</td><td>D vs A (reverse)</td></tr>
-        <tr><td>3</td><td>July 19</td><td>Saturday Evening</td><td>9:30 PM</td><td>20</td><td>E vs B (reverse)</td></tr>
-        <tr><td>3</td><td>July 20</td><td>Sunday Morning</td><td>9:00 AM</td><td>21</td><td>🏆 Semi-Final (2nd vs 3rd)</td></tr>
-        <tr><td>3</td><td>July 20</td><td>Sunday Morning</td><td>9:30 AM</td><td>22</td><td>🏆 Final (1st vs SF Winner)</td></tr>
+      <tbody id="schedule-body">
+        <!-- Matches will be inserted by JS -->
       </tbody>
     </table>
   </div>
-<script>
-  const teams = {
-    A: ['Amit (C)', 'Rohit', 'Sumit', 'Vijay', 'Ravi', 'Anil'],
-    B: ['Bhavesh (C)', 'Nirav', 'Jay', 'Arjun', 'Parth', 'Yash'],
-    C: ['Chirag (C)', 'Hardik', 'Raj', 'Karan', 'Mihir', 'Tushar'],
-    D: ['Deepak (C)', 'Sahil', 'Akash', 'Rakesh', 'Manish', 'Dev'],
-    E: ['Eshan (C)', 'Kunal', 'Nikhil', 'Sagar', 'Rahul', 'Pravin']
-  };
 
-  const leaderboard = {
-    A: {MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0},
-    B: {MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0},
-    C: {MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0},
-    D: {MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0},
-    E: {MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0},
-  };
+  <script>
+   const schedule = [
+      { id: 1, week: 1, date: 'July 5', day: 'Saturday Evening', time: '8:00 PM', teamA: 'A', teamB: 'B' },
+      { id: 2, week: 1, date: 'July 5', day: 'Saturday Evening', time: '8:30 PM', teamA: 'C', teamB: 'D' },
+      { id: 3, week: 1, date: 'July 5', day: 'Saturday Evening', time: '9:00 PM', teamA: 'E', teamB: 'A' },
+      { id: 4, week: 1, date: 'July 5', day: 'Saturday Evening', time: '9:30 PM', teamA: 'B', teamB: 'C' },
+      { id: 5, week: 1, date: 'July 6', day: 'Sunday Morning', time: '9:00 AM', teamA: 'D', teamB: 'E' },
+      { id: 6, week: 1, date: 'July 6', day: 'Sunday Morning', time: '9:30 AM', teamA: 'A', teamB: 'C' },
+      { id: 7, week: 1, date: 'July 6', day: 'Sunday Morning', time: '10:00 AM', teamA: 'B', teamB: 'D' },
+      { id: 8, week: 1, date: 'July 6', day: 'Sunday Morning', time: '10:30 AM', teamA: 'E', teamB: 'C' },
+      { id: 9, week: 2, date: 'July 12', day: 'Saturday Evening', time: '8:00 PM', teamA: 'A', teamB: 'D' },
+      { id: 10, week: 2, date: 'July 12', day: 'Saturday Evening', time: '8:30 PM', teamA: 'B', teamB: 'E' },
+      { id: 11, week: 2, date: 'July 12', day: 'Saturday Evening', time: '9:00 PM', teamA: 'A', teamB: 'B' },
+      { id: 12, week: 2, date: 'July 12', day: 'Saturday Evening', time: '9:30 PM', teamA: 'D', teamB: 'C' },
+      { id: 13, week: 2, date: 'July 13', day: 'Sunday Morning', time: '9:00 AM', teamA: 'A', teamB: 'E' },
+      { id: 14, week: 2, date: 'July 13', day: 'Sunday Morning', time: '9:30 AM', teamA: 'C', teamB: 'B' },
+      { id: 15, week: 2, date: 'July 13', day: 'Sunday Morning', time: '10:00 AM', teamA: 'E', teamB: 'D' },
+      { id: 16, week: 2, date: 'July 13', day: 'Sunday Morning', time: '10:30 AM', teamA: 'C', teamB: 'A' },
+      { id: 17, week: 3, date: 'July 19', day: 'Saturday Evening', time: '8:00 PM', teamA: 'D', teamB: 'B' },
+      { id: 18, week: 3, date: 'July 19', day: 'Saturday Evening', time: '8:30 PM', teamA: 'C', teamB: 'E' },
+      { id: 19, week: 3, date: 'July 19', day: 'Saturday Evening', time: '9:00 PM', teamA: 'D', teamB: 'A' },
+      { id: 20, week: 3, date: 'July 19', day: 'Saturday Evening', time: '9:30 PM', teamA: 'E', teamB: 'B', onComplete: updateSemifinalMatch },
+      { id: 21, week: 3, date: 'July 20', day: 'Sunday Morning', time: '9:00 AM', teamA: 'TBD', teamB: 'TBD', isSF: true },
+      { id: 22, week: 3, date: 'July 20', day: 'Sunday Morning', time: '9:30 AM', teamA: 'TBD', teamB: 'TBD', isFinal: true }
+    ];
+    function updateSemifinalMatch() {
+      const ranked = Object.entries(leaderboard).sort(([, a], [, b]) => b.Pts - a.Pts || b.GD - a.GD || b.GF - a.GF);
+      const [first, second, third] = ranked;
 
-  document.getElementById('match-form').addEventListener('submit', function(e) {
-    e.preventDefault();
+      const sfMatch = schedule.find(m => m.id === 21);
+      sfMatch.teamA = second[0];
+      sfMatch.teamB = third[0];
 
-    const teamA = document.getElementById('teamA').value;
-    const teamB = document.getElementById('teamB').value;
-    const scoreA = parseInt(document.getElementById('scoreA').value);
-    const scoreB = parseInt(document.getElementById('scoreB').value);
-
-    if (teamA === teamB) {
-      alert("Select two different teams.");
-      return;
+      renderSchedule();
     }
-    if (isNaN(scoreA) || isNaN(scoreB)) {
-      alert("Please enter valid scores.");
-      return;
+    function updateFinalMatch(sfWinner) {
+      const ranked = Object.entries(leaderboard).sort(([, a], [, b]) => b.Pts - a.Pts || b.GD - a.GD || b.GF - a.GF);
+      const first = ranked[0][0];
+      const finalMatch = schedule.find(m => m.id === 22);
+      finalMatch.teamA = first;
+      finalMatch.teamB = sfWinner;
+
+      renderSchedule();
+    }
+    const matchResults = {};
+
+    const leaderboard = {
+      A: { MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 },
+      B: { MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 },
+      C: { MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 },
+      D: { MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 },
+      E: { MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 },
+    };
+
+    function showSection(id) {
+      document.getElementById('leaderboard-section').style.display = 'none';
+      document.getElementById('schedule-section').style.display = 'none';
+      document.getElementById(id).style.display = 'block';
     }
 
-    // Update leaderboard stats
-    leaderboard[teamA].MP++;
-    leaderboard[teamB].MP++;
-    leaderboard[teamA].GF += scoreA;
-    leaderboard[teamA].GA += scoreB;
-    leaderboard[teamB].GF += scoreB;
-    leaderboard[teamB].GA += scoreA;
+    function updateLeaderboard(teamA, teamB, scoreA, scoreB) {
+      leaderboard[teamA].MP++;
+      leaderboard[teamB].MP++;
+      leaderboard[teamA].GF += scoreA;
+      leaderboard[teamA].GA += scoreB;
+      leaderboard[teamB].GF += scoreB;
+      leaderboard[teamB].GA += scoreA;
 
-    if (scoreA > scoreB) {
-      leaderboard[teamA].W++;
-      leaderboard[teamB].L++;
-      leaderboard[teamA].Pts += 3;
-    } else if (scoreA < scoreB) {
-      leaderboard[teamB].W++;
-      leaderboard[teamA].L++;
-      leaderboard[teamB].Pts += 3;
-    } else {
-      leaderboard[teamA].D++;
-      leaderboard[teamB].D++;
-      leaderboard[teamA].Pts++;
-      leaderboard[teamB].Pts++;
-    }
-
-    leaderboard[teamA].GD = leaderboard[teamA].GF - leaderboard[teamA].GA;
-    leaderboard[teamB].GD = leaderboard[teamB].GF - leaderboard[teamB].GA;
-
-    updateLeaderboardUI();
-    this.reset();
-    updatePlayerDropdowns();
-  });
-
-  function updateLeaderboardUI() {
-    const tbody = document.getElementById('leaderboard-body');
-    tbody.innerHTML = '';
-
-    const sorted = Object.entries(leaderboard).sort(([, a], [, b]) => {
-      return b.Pts - a.Pts || b.GD - a.GD || b.GF - a.GF;
-    });
-
-    sorted.forEach(([team, stats], index) => {
-      const rowClass = index === 0 ? 'top-1' : index === 1 ? 'top-2' : index === 2 ? 'top-3' : '';
-      tbody.innerHTML += `<tr class="${rowClass}">
-        <td><a href="team.html?team=${team}" target="_blank">${team}</a></td>
-        <td>${stats.MP}</td><td>${stats.W}</td><td>${stats.D}</td><td>${stats.L}</td>
-        <td>${stats.GF}</td><td>${stats.GA}</td><td>${stats.GD}</td><td>${stats.Pts}</td>
-      </tr>`;
-    });
-  }
-
-  function updatePlayerDropdowns() {
-    const teamA = document.getElementById('teamA').value;
-    const teamB = document.getElementById('teamB').value;
-    const playerA = document.getElementById('playerA');
-    const playerB = document.getElementById('playerB');
-    playerA.innerHTML = teams[teamA].map(p => `<option value="${p}">${p}</option>`).join('');
-    playerB.innerHTML = teams[teamB].map(p => `<option value="${p}">${p}</option>`).join('');
-  }
-
-  function showSection(id) {
-    document.getElementById('leaderboard-section').style.display = 'none';
-    document.getElementById('schedule-section').style.display = 'none';
-    document.getElementById(id).style.display = 'block';
-  }
-
-  function sortTable(n) {
-    const table = document.getElementById("leaderboard");
-    let switching = true, shouldSwitch, dir = "desc", switchcount = 0;
-    while (switching) {
-      switching = false;
-      const rows = table.rows;
-      for (let i = 1; i < rows.length - 1; i++) {
-        shouldSwitch = false;
-        let x = rows[i].getElementsByTagName("TD")[n];
-        let y = rows[i + 1].getElementsByTagName("TD")[n];
-        if ((dir == "asc" && parseInt(x.innerHTML) > parseInt(y.innerHTML)) ||
-            (dir == "desc" && parseInt(x.innerHTML) < parseInt(y.innerHTML))) {
-          shouldSwitch = true;
-          break;
-        }
-      }
-      if (shouldSwitch) {
-        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-        switching = true;
-        switchcount++;
+      if (scoreA > scoreB) {
+        leaderboard[teamA].W++;
+        leaderboard[teamB].L++;
+        leaderboard[teamA].Pts += 3;
+      } else if (scoreA < scoreB) {
+        leaderboard[teamB].W++;
+        leaderboard[teamA].L++;
+        leaderboard[teamB].Pts += 3;
       } else {
-        if (switchcount == 0 && dir == "desc") {
-          dir = "asc";
-          switching = true;
-        }
+        leaderboard[teamA].D++;
+        leaderboard[teamB].D++;
+        leaderboard[teamA].Pts++;
+        leaderboard[teamB].Pts++;
       }
-    }
-  }
 
-  updatePlayerDropdowns();
-  showSection('leaderboard-section');
-</script>
+      leaderboard[teamA].GD = leaderboard[teamA].GF - leaderboard[teamA].GA;
+      leaderboard[teamB].GD = leaderboard[teamB].GF - leaderboard[teamB].GA;
+    }
+
+    function updateLeaderboardUI() {
+      const tbody = document.getElementById('leaderboard-body');
+      tbody.innerHTML = '';
+
+      const sorted = Object.entries(leaderboard).sort(([, a], [, b]) => b.Pts - a.Pts || b.GD - a.GD || b.GF - a.GF);
+
+      sorted.forEach(([team, stats], index) => {
+        const rowClass = index === 0 ? 'top-1' : index === 1 ? 'top-2' : index === 2 ? 'top-3' : '';
+        tbody.innerHTML += `<tr class="${rowClass}">
+          <td>${team}</td>
+          <td>${stats.MP}</td><td>${stats.W}</td><td>${stats.D}</td><td>${stats.L}</td>
+          <td>${stats.GF}</td><td>${stats.GA}</td><td>${stats.GD}</td><td>${stats.Pts}</td>
+        </tr>`;
+      });
+    }
+
+    function renderSchedule() {
+      const tbody = document.getElementById('schedule-body');
+      schedule.forEach(match => {
+        tbody.innerHTML += `
+          <tr data-match-id="${match.id}">
+            <td>${match.week}</td><td>${match.date}</td><td>${match.day}</td><td>${match.time}</td>
+            <td>${match.id}</td>
+            <td>${match.teamA} vs ${match.teamB}</td>
+            <td>
+              <input type="number" class="scoreA" min="0" /> -
+              <input type="number" class="scoreB" min="0" />
+              <button class="score-submit" onclick="submitScore(${match.id}, '${match.teamA}', '${match.teamB}', this)">Submit</button>
+            </td>
+          </tr>`;
+      });
+    }
+
+    function submitScore(matchId, teamA, teamB, btn) {
+        const row = btn.closest('tr');
+        const scoreA = parseInt(row.querySelector('.scoreA').value);
+        const scoreB = parseInt(row.querySelector('.scoreB').value);
+
+        if (isNaN(scoreA) || isNaN(scoreB)) {
+            alert("Please enter valid scores.");
+            return;
+        }
+
+        if (matchResults[matchId]) {
+            alert("Score for this match already submitted.");
+            return;
+        }
+
+        matchResults[matchId] = { teamA, teamB, scoreA, scoreB };
+        updateLeaderboard(teamA, teamB, scoreA, scoreB);
+        updateLeaderboardUI();
+
+        row.querySelector('.scoreA').disabled = true;
+        row.querySelector('.scoreB').disabled = true;
+        btn.disabled = true;
+
+        if (matchId === 20) {
+            updateSemifinalMatch();
+            renderSchedule();
+        } else if (matchId === 21) {
+            const winner = scoreA > scoreB ? teamA : scoreB > scoreA ? teamB : null;
+            if (winner) {
+            updateFinalMatch(winner);
+            renderSchedule();
+            }
+        }
+    };
+    renderSchedule();
+    updateLeaderboardUI();
+    showSection('leaderboard-section');
+  </script>
 </body>
 </html>
