@@ -93,7 +93,7 @@
   </style>
 </head>
 <body>
-  <h1>Football Tournament</h1>
+  <h1>7PD Football Tournament</h1>
 
   <div class="nav-buttons">
     <button onclick="showSection('leaderboard-section')">Leaderboard</button>
@@ -136,11 +136,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td><img class="team-logo" src="https://via.placeholder.com/24/FF0000/FFFFFF?text=A" />A</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-        <tr><td><img class="team-logo" src="https://via.placeholder.com/24/0000FF/FFFFFF?text=B" />B</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-        <tr><td><img class="team-logo" src="https://via.placeholder.com/24/00FF00/FFFFFF?text=C" />C</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-        <tr><td><img class="team-logo" src="https://via.placeholder.com/24/FFFF00/000000?text=D" />D</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-        <tr><td><img class="team-logo" src="https://via.placeholder.com/24/FF00FF/FFFFFF?text=E" />E</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>A</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>B</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>C</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>D</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>E</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
       </tbody>
     </table>
   </div>
@@ -183,12 +183,26 @@
       </tbody>
     </table>
   </div>
-
   <script>
+    const teams = {
+      A: ['Amit (C)', 'Rohit', 'Sumit', 'Vijay', 'Ravi', 'Anil'],
+      B: ['Bhavesh (C)', 'Nirav', 'Jay', 'Arjun', 'Parth', 'Yash'],
+      C: ['Chirag (C)', 'Hardik', 'Raj', 'Karan', 'Mihir', 'Tushar'],
+      D: ['Deepak (C)', 'Sahil', 'Akash', 'Rakesh', 'Manish', 'Dev'],
+      E: ['Eshan (C)', 'Kunal', 'Nikhil', 'Sagar', 'Rahul', 'Pravin']
+    };
+
     function showSection(id) {
       document.getElementById('leaderboard-section').style.display = 'none';
       document.getElementById('schedule-section').style.display = 'none';
       document.getElementById(id).style.display = 'block';
+    }
+    function updatePlayers(selectId) {
+      const team = document.getElementById(selectId).value;
+      const players = teams[team];
+      const containerId = selectId + '-players';
+      const container = document.getElementById(containerId);
+      container.innerHTML = `<strong>Team ${team} Players:</strong><ul>${players.map(p => `<li>${p}</li>`).join('')}</ul>`;
     }
     showSection('leaderboard-section');
   </script>
