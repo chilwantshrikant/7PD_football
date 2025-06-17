@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Team Stats</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+    h1 { color: #333; }
+    ul { list-style: none; padding-left: 0; }
+    li { background: #fff; padding: 10px; margin-bottom: 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1 id="team-name">Team</h1>
+  <h2>Players:</h2>
+  <ul id="player-list"></ul>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const team = urlParams.get("team");
+
+    const teams = {
+      A: ['Amit (C)', 'Rohit', 'Sumit', 'Vijay', 'Ravi', 'Anil'],
+      B: ['Bhavesh (C)', 'Nirav', 'Jay', 'Arjun', 'Parth', 'Yash'],
+      C: ['Chirag (C)', 'Hardik', 'Raj', 'Karan', 'Mihir', 'Tushar'],
+      D: ['Deepak (C)', 'Sahil', 'Akash', 'Rakesh', 'Manish', 'Dev'],
+      E: ['Eshan (C)', 'Kunal', 'Nikhil', 'Sagar', 'Rahul', 'Pravin']
+    };
+
+    const playerList = document.getElementById("player-list");
+    const teamName = document.getElementById("team-name");
+
+    if (teams[team]) {
+      teamName.textContent = `Team ${team}`;
+      teams[team].forEach(player => {
+        const li = document.createElement("li");
+        li.textContent = player;
+        playerList.appendChild(li);
+      });
+    } else {
+      teamName.textContent = "Invalid Team";
+    }
+  </script>
+</body>
+</html>
