@@ -1,45 +1,129 @@
+# Rewriting the file after code execution environment reset
+team_html_content = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Team Stats</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Details</title>
   <style>
-    body { font-family: Arial; padding: 20px; background: #f0f0f0; }
-    h1 { color: #333; }
-    ul { list-style: none; padding-left: 0; }
-    li { background: #fff; padding: 10px; margin-bottom: 5px; border-radius: 4px; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #121212;
+      color: #fff;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #555;
+      text-align: center;
+    }
+    th {
+      background-color: #333;
+    }
   </style>
 </head>
 <body>
-  <h1 id="team-name">Team</h1>
-  <h2>Players:</h2>
-  <ul id="player-list"></ul>
+  <h1 id="team-heading">Team Players</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Player Name</th>
+        <th>Goals</th>
+        <th>Assists</th>
+        <th>Matches</th>
+      </tr>
+    </thead>
+    <tbody id="player-stats-body">
+    </tbody>
+  </table>
 
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const team = urlParams.get("team");
-
-    const teams = {
-      A: ['Amit (C)', 'Rohit', 'Sumit', 'Vijay', 'Ravi', 'Anil'],
-      B: ['Bhavesh (C)', 'Nirav', 'Jay', 'Arjun', 'Parth', 'Yash'],
-      C: ['Chirag (C)', 'Hardik', 'Raj', 'Karan', 'Mihir', 'Tushar'],
-      D: ['Deepak (C)', 'Sahil', 'Akash', 'Rakesh', 'Manish', 'Dev'],
-      E: ['Eshan (C)', 'Kunal', 'Nikhil', 'Sagar', 'Rahul', 'Pravin']
+    const teamPlayersStats = {
+      Manchester: [
+        { name: "Player A1", goals: 2, assists: 1, matches: 2 },
+        { name: "Player A2", goals: 1, assists: 0, matches: 2 },
+        { name: "Player A3", goals: 0, assists: 2, matches: 1 },
+        { name: "Player A4", goals: 0, assists: 0, matches: 2 },
+        { name: "Player A5", goals: 0, assists: 0, matches: 1 }
+      ],
+      Chelsea: [
+        { name: "Player B1", goals: 3, assists: 1, matches: 2 },
+        { name: "Player B2", goals: 0, assists: 2, matches: 2 },
+        { name: "Player B3", goals: 0, assists: 0, matches: 1 },
+        { name: "Player B4", goals: 1, assists: 0, matches: 2 },
+        { name: "Player B5", goals: 0, assists: 0, matches: 2 }
+      ],
+      RealMadrid: [
+        { name: "Player C1", goals: 1, assists: 0, matches: 2 },
+        { name: "Player C2", goals: 0, assists: 1, matches: 2 },
+        { name: "Player C3", goals: 0, assists: 0, matches: 1 },
+        { name: "Player C4", goals: 0, assists: 0, matches: 1 },
+        { name: "Player C5", goals: 0, assists: 0, matches: 2 }
+      ],
+      Barcelona: [
+        { name: "Player D1", goals: 2, assists: 0, matches: 2 },
+        { name: "Player D2", goals: 0, assists: 1, matches: 2 },
+        { name: "Player D3", goals: 0, assists: 0, matches: 2 },
+        { name: "Player D4", goals: 0, assists: 0, matches: 1 },
+        { name: "Player D5", goals: 0, assists: 0, matches: 1 }
+      ],
+      Juventus: [
+        { name: "Player E1", goals: 1, assists: 0, matches: 2 },
+        { name: "Player E2", goals: 0, assists: 0, matches: 2 },
+        { name: "Player E3", goals: 0, assists: 1, matches: 1 },
+        { name: "Player E4", goals: 0, assists: 0, matches: 1 },
+        { name: "Player E5", goals: 0, assists: 0, matches: 2 }
+      ]
     };
 
-    const playerList = document.getElementById("player-list");
-    const teamName = document.getElementById("team-name");
-
-    if (teams[team]) {
-      teamName.textContent = `Team ${team}`;
-      teams[team].forEach(player => {
-        const li = document.createElement("li");
-        li.textContent = player;
-        playerList.appendChild(li);
-      });
-    } else {
-      teamName.textContent = "Invalid Team";
+    function getTeamFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("team");
     }
+
+    function renderTeamStats(team) {
+      const heading = document.getElementById("team-heading");
+      const tbody = document.getElementById("player-stats-body");
+
+      if (!teamPlayersStats[team]) {
+        heading.textContent = "Team not found";
+        return;
+      }
+
+      heading.textContent = `Team ${team} - Player Stats`;
+
+      teamPlayersStats[team].forEach(player => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${player.name}</td>
+          <td>${player.goals}</td>
+          <td>${player.assists}</td>
+          <td>${player.matches}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    const team = getTeamFromURL();
+    renderTeamStats(team);
   </script>
 </body>
 </html>
+"""
+
+# Save it to a file again
+file_path = "/mnt/data/team.html"
+with open(file_path, "w") as f:
+    f.write(team_html_content)
+
+file_path

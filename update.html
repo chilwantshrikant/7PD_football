@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>7PD FPL Leaderboard</title>
@@ -125,6 +126,11 @@
       </tbody>
     </table>
   </div>
+  <div id="player-modal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); background:#333; color:#fff; padding:20px; border-radius:10px; z-index:1000;">
+    <h3 id="team-name-heading"></h3>
+    <ul id="player-list"></ul>
+    <button onclick="document.getElementById('player-modal').style.display='none'">Close</button>
+  </div>
 
   <script>
    const schedule = [
@@ -193,15 +199,22 @@
             btn.onclick = () => submitScore(22, first, sfWinner, btn);
         }
         }
+    const teamPlayers = {
+        Manchester : ["Player A1", "Player A2", "Player A3", "Player A4", "Player A5"],
+        Chelsea: ["Player B1", "Player B2", "Player B3", "Player B4", "Player B5"],
+        RealMadrid: ["Player C1", "Player C2", "Player C3", "Player C4", "Player C5"],
+        Barcelona: ["Player D1", "Player D2", "Player D3", "Player D4", "Player D5"],
+        Juventus: ["Player E1", "Player E2", "Player E3", "Player E4", "Player E5"]
+        };
 
     const matchResults = {};
 
     const leaderboard = {
-      A: { MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 },
-      B: { MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 },
-      C: { MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 },
-      D: { MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 },
-      E: { MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 },
+      Manchester: { MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 },
+      Chelsea: { MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 },
+      RealMadrid: { MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 },
+      Barcelona: { MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 },
+      Juventus: { MP: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 },
     };
 
     function showSection(id) {
@@ -246,12 +259,26 @@
       sorted.forEach(([team, stats], index) => {
         const rowClass = index === 0 ? 'top-1' : index === 1 ? 'top-2' : index === 2 ? 'top-3' : '';
         tbody.innerHTML += `<tr class="${rowClass}">
-          <td>${team}</td>
-          <td>${stats.MP}</td><td>${stats.W}</td><td>${stats.D}</td><td>${stats.L}</td>
-          <td>${stats.GF}</td><td>${stats.GA}</td><td>${stats.GD}</td><td>${stats.Pts}</td>
+        <td><a href="team.html?team=${team}" target="_blank">${team}</a></td>
+        <td>${stats.MP}</td><td>${stats.W}</td><td>${stats.D}</td><td>${stats.L}</td>
+        <td>${stats.GF}</td><td>${stats.GA}</td><td>${stats.GD}</td><td>${stats.Pts}</td>
         </tr>`;
       });
     }
+    function showPlayers(team) {
+        const modal = document.getElementById("player-modal");
+        const list = document.getElementById("player-list");
+        const heading = document.getElementById("team-name-heading");
+
+        heading.textContent = `Players of Team ${team}`;
+        list.innerHTML = "";
+
+        teamPlayers[team].forEach(player => {
+            list.innerHTML += `<li>${player}</li>`;
+        });
+
+        modal.style.display = "block";
+        }
 
     function renderSchedule() {
       const tbody = document.getElementById('schedule-body');
