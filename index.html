@@ -1,146 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Football Tournament Leaderboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Football Leaderboard</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
-    h1 { text-align: center; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; }
-    th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
-    th { background-color: #007BFF; color: white; }
-    input[type="number"] { width: 60px; }
-    .controls { text-align: center; margin-top: 20px; }
-    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-image: url('https://images.unsplash.com/photo-1509228627152-72ae9ae6848b');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: #fff;
+    }
+    h1 {
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 10px;
+      border-radius: 10px;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .nav-buttons button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: #fff;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+    th {
+      background-color: #222;
+      color: white;
+      cursor: pointer;
+    }
+    tr.top-1 {
+      background-color: gold;
+      color: black;
+    }
+    tr.top-2 {
+      background-color: silver;
+      color: black;
+    }
+    tr.top-3 {
+      background-color: #cd7f32;
+      color: black;
+    }
+    form {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 15px;
+      border-radius: 10px;
+    }
+    input, select, button {
+      padding: 8px;
+      font-size: 16px;
+    }
+    .team-logo {
+      width: 24px;
+      height: 24px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+    @media (max-width: 600px) {
+      table, th, td {
+        font-size: 12px;
+      }
+    }
   </style>
 </head>
 <body>
+  <h1>Football Tournament</h1>
 
-<h1>Football Tournament Leaderboard</h1>
+  <div class="nav-buttons">
+    <button onclick="showSection('leaderboard-section')">Leaderboard</button>
+    <button onclick="showSection('schedule-section')">Match Schedule</button>
+  </div>
 
-<table id="leaderboard">
-  <thead>
-    <tr>
-      <th>Rank</th>
-      <th>Team</th>
-      <th>P</th>
-      <th>W</th>
-      <th>L</th>
-      <th>Pts</th>
-      <th>GF</th>
-      <th>GA</th>
-      <th>GD</th>
-    </tr>
-  </thead>
-  <tbody id="teams">
-    <tr>
-      <td></td><td contenteditable="true">Team A</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-    </tr>
-    <tr>
-      <td></td><td contenteditable="true">Team B</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-    </tr>
-    <tr>
-      <td></td><td contenteditable="true">Team C</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-    </tr>
-    <tr>
-      <td></td><td contenteditable="true">Team D</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-    </tr>
-    <tr>
-      <td></td><td contenteditable="true">Team E</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-    </tr>
-  </tbody>
-</table>
+  <div id="leaderboard-section">
+    <form id="match-form">
+      <select id="teamA">
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+        <option value="E">E</option>
+      </select>
+      <input type="number" id="scoreA" placeholder="Score A" min="0" />
+      <select id="teamB">
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+        <option value="E">E</option>
+      </select>
+      <input type="number" id="scoreB" placeholder="Score B" min="0" />
+      <button type="submit">Submit Match</button>
+    </form>
 
-<div class="controls">
-  <h2>Update Match Result</h2>
-  <label>Team 1:
-    <select id="team1"></select>
-  </label>
-  <input type="number" id="team1Score" min="0" placeholder="Score">
-  <label>Team 2:
-    <select id="team2"></select>
-  </label>
-  <input type="number" id="team2Score" min="0" placeholder="Score">
-  <button onclick="updateMatch()">Submit Result</button>
-</div>
+    <table id="leaderboard">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0)">Team</th>
+          <th onclick="sortTable(1)">MP</th>
+          <th onclick="sortTable(2)">W</th>
+          <th onclick="sortTable(3)">D</th>
+          <th onclick="sortTable(4)">L</th>
+          <th onclick="sortTable(5)">GF</th>
+          <th onclick="sortTable(6)">GA</th>
+          <th onclick="sortTable(7)">GD</th>
+          <th onclick="sortTable(8)">Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><img class="team-logo" src="https://via.placeholder.com/24/FF0000/FFFFFF?text=A" />A</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><img class="team-logo" src="https://via.placeholder.com/24/0000FF/FFFFFF?text=B" />B</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><img class="team-logo" src="https://via.placeholder.com/24/00FF00/FFFFFF?text=C" />C</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><img class="team-logo" src="https://via.placeholder.com/24/FFFF00/000000?text=D" />D</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><img class="team-logo" src="https://via.placeholder.com/24/FF00FF/FFFFFF?text=E" />E</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </div>
 
-<script>
-  const tableBody = document.getElementById('teams');
-  const team1Select = document.getElementById('team1');
-  const team2Select = document.getElementById('team2');
+  <div id="schedule-section" style="display: none">
+    <table>
+      <thead>
+        <tr>
+          <th>Week</th>
+          <th>Date</th>
+          <th>Day</th>
+          <th>Time</th>
+          <th>Match No.</th>
+          <th>Fixture</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>July 5</td><td>Saturday Evening</td><td>8:00 PM</td><td>1</td><td>A vs B</td></tr>
+        <tr><td>1</td><td>July 5</td><td>Saturday Evening</td><td>8:30 PM</td><td>2</td><td>C vs D</td></tr>
+        <tr><td>1</td><td>July 5</td><td>Saturday Evening</td><td>9:00 PM</td><td>3</td><td>E vs A</td></tr>
+        <tr><td>1</td><td>July 5</td><td>Saturday Evening</td><td>9:30 PM</td><td>4</td><td>B vs C</td></tr>
+        <tr><td>1</td><td>July 6</td><td>Sunday Morning</td><td>9:00 AM</td><td>5</td><td>D vs E</td></tr>
+        <tr><td>1</td><td>July 6</td><td>Sunday Morning</td><td>9:30 AM</td><td>6</td><td>A vs C</td></tr>
+        <tr><td>1</td><td>July 6</td><td>Sunday Morning</td><td>10:00 AM</td><td>7</td><td>B vs D</td></tr>
+        <tr><td>1</td><td>July 6</td><td>Sunday Morning</td><td>10:30 AM</td><td>8</td><td>E vs C</td></tr>
+        <tr><td>2</td><td>July 12</td><td>Saturday Evening</td><td>8:00 PM</td><td>9</td><td>A vs D</td></tr>
+        <tr><td>2</td><td>July 12</td><td>Saturday Evening</td><td>8:30 PM</td><td>10</td><td>B vs E</td></tr>
+        <tr><td>2</td><td>July 12</td><td>Saturday Evening</td><td>9:00 PM</td><td>11</td><td>A vs B (reverse)</td></tr>
+        <tr><td>2</td><td>July 12</td><td>Saturday Evening</td><td>9:30 PM</td><td>12</td><td>D vs C (reverse)</td></tr>
+        <tr><td>2</td><td>July 13</td><td>Sunday Morning</td><td>9:00 AM</td><td>13</td><td>A vs E (reverse)</td></tr>
+        <tr><td>2</td><td>July 13</td><td>Sunday Morning</td><td>9:30 AM</td><td>14</td><td>C vs B (reverse)</td></tr>
+        <tr><td>2</td><td>July 13</td><td>Sunday Morning</td><td>10:00 AM</td><td>15</td><td>E vs D (reverse)</td></tr>
+        <tr><td>2</td><td>July 13</td><td>Sunday Morning</td><td>10:30 AM</td><td>16</td><td>C vs A (reverse)</td></tr>
+        <tr><td>3</td><td>July 19</td><td>Saturday Evening</td><td>8:00 PM</td><td>17</td><td>D vs B (reverse)</td></tr>
+        <tr><td>3</td><td>July 19</td><td>Saturday Evening</td><td>8:30 PM</td><td>18</td><td>C vs E (reverse)</td></tr>
+        <tr><td>3</td><td>July 19</td><td>Saturday Evening</td><td>9:00 PM</td><td>19</td><td>D vs A (reverse)</td></tr>
+        <tr><td>3</td><td>July 19</td><td>Saturday Evening</td><td>9:30 PM</td><td>20</td><td>E vs B (reverse)</td></tr>
+        <tr><td>3</td><td>July 20</td><td>Sunday Morning</td><td>9:00 AM</td><td>21</td><td>🏆 Semi-Final (2nd vs 3rd)</td></tr>
+        <tr><td>3</td><td>July 20</td><td>Sunday Morning</td><td>9:30 AM</td><td>22</td><td>🏆 Final (1st vs SF Winner)</td></tr>
+      </tbody>
+    </table>
+  </div>
 
-  function populateTeamDropdowns() {
-    [...tableBody.rows].forEach(row => {
-      const teamName = row.cells[1].textContent;
-      const option1 = new Option(teamName, teamName);
-      const option2 = new Option(teamName, teamName);
-      team1Select.add(option1.cloneNode(true));
-      team2Select.add(option2.cloneNode(true));
-    });
-  }
-
-  function updateMatch() {
-    const t1 = team1Select.value;
-    const t2 = team2Select.value;
-    const s1 = parseInt(document.getElementById('team1Score').value);
-    const s2 = parseInt(document.getElementById('team2Score').value);
-
-    if (t1 === t2 || isNaN(s1) || isNaN(s2)) {
-      alert('Invalid input');
-      return;
+  <script>
+    function showSection(id) {
+      document.getElementById('leaderboard-section').style.display = 'none';
+      document.getElementById('schedule-section').style.display = 'none';
+      document.getElementById(id).style.display = 'block';
     }
-
-    for (let row of tableBody.rows) {
-      const teamName = row.cells[1].textContent;
-      if (teamName === t1 || teamName === t2) {
-        const played = parseInt(row.cells[2].textContent) + 1;
-        let win = parseInt(row.cells[3].textContent);
-        let loss = parseInt(row.cells[4].textContent);
-        let points = parseInt(row.cells[5].textContent);
-        let gf = parseInt(row.cells[6].textContent);
-        let ga = parseInt(row.cells[7].textContent);
-
-        if (teamName === t1) {
-          gf += s1; ga += s2;
-          if (s1 > s2) { win++; points += 3; }
-          else if (s1 < s2) { loss++; }
-          else { points += 1; }
-        } else {
-          gf += s2; ga += s1;
-          if (s2 > s1) { win++; points += 3; }
-          else if (s2 < s1) { loss++; }
-          else { points += 1; }
-        }
-
-        row.cells[2].textContent = played;
-        row.cells[3].textContent = win;
-        row.cells[4].textContent = loss;
-        row.cells[5].textContent = points;
-        row.cells[6].textContent = gf;
-        row.cells[7].textContent = ga;
-        row.cells[8].textContent = gf - ga;
-      }
-    }
-    sortTable();
-  }
-
-  function sortTable() {
-    const rows = Array.from(tableBody.rows);
-    rows.sort((a, b) => {
-      const ptsDiff = b.cells[5].textContent - a.cells[5].textContent;
-      if (ptsDiff !== 0) return ptsDiff;
-      const gdDiff = b.cells[8].textContent - a.cells[8].textContent;
-      return gdDiff;
-    });
-    tableBody.innerHTML = '';
-    rows.forEach((row, i) => {
-      row.cells[0].textContent = i + 1;
-      tableBody.appendChild(row);
-    });
-  }
-
-  populateTeamDropdowns();
-</script>
-
+    showSection('leaderboard-section');
+  </script>
 </body>
 </html>
