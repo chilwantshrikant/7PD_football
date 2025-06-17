@@ -151,25 +151,49 @@
       { id: 21, week: 3, date: 'July 20', day: 'Sunday Morning', time: '9:00 AM', teamA: 'TBD', teamB: 'TBD', isSF: true },
       { id: 22, week: 3, date: 'July 20', day: 'Sunday Morning', time: '9:30 AM', teamA: 'TBD', teamB: 'TBD', isFinal: true }
     ];
-    function updateSemifinalMatch() {
-      const ranked = Object.entries(leaderboard).sort(([, a], [, b]) => b.Pts - a.Pts || b.GD - a.GD || b.GF - a.GF);
-      const [first, second, third] = ranked;
+      function updateSemifinalMatch() {
+        const ranked = Object.entries(leaderboard).sort(([, a], [, b]) => b.Pts - a.Pts || b.GD - a.GD || b.GF - a.GF);
+        const second = ranked[1][0];
+        const third = ranked[2][0];
 
-      const sfMatch = schedule.find(m => m.id === 21);
-      sfMatch.teamA = second[0];
-      sfMatch.teamB = third[0];
+        const match21 = schedule.find(m => m.id === 21);
+        match21.teamA = second;
+        match21.teamB = third;
 
-      renderSchedule();
-    }
-    function updateFinalMatch(sfWinner) {
-      const ranked = Object.entries(leaderboard).sort(([, a], [, b]) => b.Pts - a.Pts || b.GD - a.GD || b.GF - a.GF);
-      const first = ranked[0][0];
-      const finalMatch = schedule.find(m => m.id === 22);
-      finalMatch.teamA = first;
-      finalMatch.teamB = sfWinner;
+        const row21 = document.querySelector('tr[data-match-id="21"]');
+        if (row21) {
+            row21.querySelector('td:nth-child(6)').textContent = `${second} vs ${third}`;
+            row21.querySelector('.scoreA').value = '';
+            row21.querySelector('.scoreB').value = '';
+            row21.querySelector('.scoreA').disabled = false;
+            row21.querySelector('.scoreB').disabled = false;
+            const btn = row21.querySelector('.score-submit');
+            btn.textContent = "Submit";
+            btn.onclick = () => submitScore(21, second, third, btn);
+            }
+        }
 
-      renderSchedule();
-    }
+      function updateFinalMatch(sfWinner) {
+        const ranked = Object.entries(leaderboard).sort(([, a], [, b]) => b.Pts - a.Pts || b.GD - a.GD || b.GF - a.GF);
+        const first = ranked[0][0];
+
+        const match22 = schedule.find(m => m.id === 22);
+        match22.teamA = first;
+        match22.teamB = sfWinner;
+
+        const row22 = document.querySelector('tr[data-match-id="22"]');
+        if (row22) {
+            row22.querySelector('td:nth-child(6)').textContent = `${first} vs ${sfWinner}`;
+            row22.querySelector('.scoreA').value = '';
+            row22.querySelector('.scoreB').value = '';
+            row22.querySelector('.scoreA').disabled = false;
+            row22.querySelector('.scoreB').disabled = false;
+            const btn = row22.querySelector('.score-submit');
+            btn.textContent = "Submit";
+            btn.onclick = () => submitScore(22, first, sfWinner, btn);
+        }
+        }
+
     const matchResults = {};
 
     const leaderboard = {
@@ -231,6 +255,8 @@
 
     function renderSchedule() {
       const tbody = document.getElementById('schedule-body');
+      tbody.innerHTML = '';
+
       schedule.forEach(match => {
         tbody.innerHTML += `
           <tr data-match-id="${match.id}">
@@ -245,41 +271,57 @@
           </tr>`;
       });
     }
-
+    function enableEdit(matchId, teamA, teamB, btn) {
+      const row = btn.closest('tr');
+      const scoreAInput = row.querySelector('.scoreA');
+      const scoreBInput = row.querySelector('.scoreB');
+      scoreAInput.disabled = false;
+      scoreBInput.disabled = false;
+      btn.textContent = "Submit";
+      btn.onclick = () => submitScore(matchId, teamA, teamB, btn);
+    }
     function submitScore(matchId, teamA, teamB, btn) {
-        const row = btn.closest('tr');
-        const scoreA = parseInt(row.querySelector('.scoreA').value);
-        const scoreB = parseInt(row.querySelector('.scoreB').value);
+      const row = btn.closest('tr');
+      const scoreAInput = row.querySelector('.scoreA');
+      const scoreBInput = row.querySelector('.scoreB');
+      const scoreA = parseInt(scoreAInput.value);
+      const scoreB = parseInt(scoreBInput.value);
 
-        if (isNaN(scoreA) || isNaN(scoreB)) {
-            alert("Please enter valid scores.");
-            return;
-        }
+      if (isNaN(scoreA) || isNaN(scoreB)) {
+        alert("Please enter valid scores.");
+        return;
+      }
 
-        if (matchResults[matchId]) {
-            alert("Score for this match already submitted.");
-            return;
-        }
+      const isEdit = matchResults[matchId];
+      if (isEdit) {
+        // Revert leaderboard before updating
+        const previous = matchResults[matchId];
+        updateLeaderboard(previous.teamA, previous.teamB, -previous.scoreA, -previous.scoreB);
+      }
 
-        matchResults[matchId] = { teamA, teamB, scoreA, scoreB };
-        updateLeaderboard(teamA, teamB, scoreA, scoreB);
-        updateLeaderboardUI();
+      matchResults[matchId] = { teamA, teamB, scoreA, scoreB };
+      updateLeaderboard(teamA, teamB, scoreA, scoreB);
+      updateLeaderboardUI();
 
-        row.querySelector('.scoreA').disabled = true;
-        row.querySelector('.scoreB').disabled = true;
-        btn.disabled = true;
+      scoreAInput.disabled = true;
+      scoreBInput.disabled = true;
+      btn.textContent = "Edit";
+      btn.onclick = () => enableEdit(matchId, teamA, teamB, btn);
 
         if (matchId === 20) {
-            updateSemifinalMatch();
-            renderSchedule();
+        updateSemifinalMatch();
         } else if (matchId === 21) {
-            const winner = scoreA > scoreB ? teamA : scoreB > scoreA ? teamB : null;
-            if (winner) {
-            updateFinalMatch(winner);
-            renderSchedule();
-            }
+        const winner = scoreA > scoreB ? teamA : scoreB > scoreA ? teamB : null;
+        if (winner) updateFinalMatch(winner);
         }
-    };
+    }
+    function enableEdit(matchId, teamA, teamB, btn) {
+      const row = btn.closest('tr');
+      row.querySelector('.scoreA').disabled = false;
+      row.querySelector('.scoreB').disabled = false;
+      btn.textContent = "Submit";
+      btn.onclick = () => submitScore(matchId, teamA, teamB, btn);
+    }
     renderSchedule();
     updateLeaderboardUI();
     showSection('leaderboard-section');
