@@ -55,7 +55,7 @@
     }
     tr.top-1 { background-color: gold; color: black; }
     tr.top-2 { background-color: silver; color: black; }
-    tr.top-3 { background-color: #cd7f32; color: black; }
+    tr.top-3 { background-color: silver; color: black; }
     @media (max-width: 600px) {
       table, th, td { font-size: 12px; }
     }
@@ -134,26 +134,26 @@
 
   <script>
    const schedule = [
-      { id: 1, week: 1, date: 'July 5', day: 'Saturday Evening', time: '8:00 PM', teamA: 'A', teamB: 'B' },
-      { id: 2, week: 1, date: 'July 5', day: 'Saturday Evening', time: '8:30 PM', teamA: 'C', teamB: 'D' },
-      { id: 3, week: 1, date: 'July 5', day: 'Saturday Evening', time: '9:00 PM', teamA: 'E', teamB: 'A' },
-      { id: 4, week: 1, date: 'July 5', day: 'Saturday Evening', time: '9:30 PM', teamA: 'B', teamB: 'C' },
-      { id: 5, week: 1, date: 'July 6', day: 'Sunday Morning', time: '9:00 AM', teamA: 'D', teamB: 'E' },
-      { id: 6, week: 1, date: 'July 6', day: 'Sunday Morning', time: '9:30 AM', teamA: 'A', teamB: 'C' },
-      { id: 7, week: 1, date: 'July 6', day: 'Sunday Morning', time: '10:00 AM', teamA: 'B', teamB: 'D' },
-      { id: 8, week: 1, date: 'July 6', day: 'Sunday Morning', time: '10:30 AM', teamA: 'E', teamB: 'C' },
-      { id: 9, week: 2, date: 'July 12', day: 'Saturday Evening', time: '8:00 PM', teamA: 'A', teamB: 'D' },
-      { id: 10, week: 2, date: 'July 12', day: 'Saturday Evening', time: '8:30 PM', teamA: 'B', teamB: 'E' },
-      { id: 11, week: 2, date: 'July 12', day: 'Saturday Evening', time: '9:00 PM', teamA: 'A', teamB: 'B' },
-      { id: 12, week: 2, date: 'July 12', day: 'Saturday Evening', time: '9:30 PM', teamA: 'D', teamB: 'C' },
-      { id: 13, week: 2, date: 'July 13', day: 'Sunday Morning', time: '9:00 AM', teamA: 'A', teamB: 'E' },
-      { id: 14, week: 2, date: 'July 13', day: 'Sunday Morning', time: '9:30 AM', teamA: 'C', teamB: 'B' },
-      { id: 15, week: 2, date: 'July 13', day: 'Sunday Morning', time: '10:00 AM', teamA: 'E', teamB: 'D' },
-      { id: 16, week: 2, date: 'July 13', day: 'Sunday Morning', time: '10:30 AM', teamA: 'C', teamB: 'A' },
-      { id: 17, week: 3, date: 'July 19', day: 'Saturday Evening', time: '8:00 PM', teamA: 'D', teamB: 'B' },
-      { id: 18, week: 3, date: 'July 19', day: 'Saturday Evening', time: '8:30 PM', teamA: 'C', teamB: 'E' },
-      { id: 19, week: 3, date: 'July 19', day: 'Saturday Evening', time: '9:00 PM', teamA: 'D', teamB: 'A' },
-      { id: 20, week: 3, date: 'July 19', day: 'Saturday Evening', time: '9:30 PM', teamA: 'E', teamB: 'B', onComplete: updateSemifinalMatch },
+      { id: 1, week: 1, date: 'July 5', day: 'Saturday Evening', time: '8:00 PM', teamA: 'Manchester', teamB: 'Chelsea' },
+      { id: 2, week: 1, date: 'July 5', day: 'Saturday Evening', time: '8:30 PM', teamA: 'RealMadrid', teamB: 'Barcelona' },
+      { id: 3, week: 1, date: 'July 5', day: 'Saturday Evening', time: '9:00 PM', teamA: 'Juventus', teamB: 'Manchester' },
+      { id: 4, week: 1, date: 'July 5', day: 'Saturday Evening', time: '9:30 PM', teamA: 'Chelsea', teamB: 'RealMadrid' },
+      { id: 5, week: 1, date: 'July 6', day: 'Sunday Morning', time: '9:00 AM', teamA: 'Barcelona', teamB: 'Juventus' },
+      { id: 6, week: 1, date: 'July 6', day: 'Sunday Morning', time: '9:30 AM', teamA: 'Manchester', teamB: 'RealMadrid' },
+      { id: 7, week: 1, date: 'July 6', day: 'Sunday Morning', time: '10:00 AM', teamA: 'Chelsea', teamB: 'Barcelona' },
+      { id: 8, week: 1, date: 'July 6', day: 'Sunday Morning', time: '10:30 AM', teamA: 'Juventus', teamB: 'RealMadrid' },
+      { id: 9, week: 2, date: 'July 12', day: 'Saturday Evening', time: '8:00 PM', teamA: 'Manchester', teamB: 'Barcelona' },
+      { id: 10, week: 2, date: 'July 12', day: 'Saturday Evening', time: '8:30 PM', teamA: 'Chelsea', teamB: 'Juventus' },
+      { id: 11, week: 2, date: 'July 12', day: 'Saturday Evening', time: '9:00 PM', teamA: 'Manchester', teamB: 'Chelsea' },
+      { id: 12, week: 2, date: 'July 12', day: 'Saturday Evening', time: '9:30 PM', teamA: 'Barcelona', teamB: 'RealMadrid' },
+      { id: 13, week: 2, date: 'July 13', day: 'Sunday Morning', time: '9:00 AM', teamA: 'Manchester', teamB: 'Juventus' },
+      { id: 14, week: 2, date: 'July 13', day: 'Sunday Morning', time: '9:30 AM', teamA: 'RealMadrid', teamB: 'Chelsea' },
+      { id: 15, week: 2, date: 'July 13', day: 'Sunday Morning', time: '10:00 AM', teamA: 'Juventus', teamB: 'Barcelona' },
+      { id: 16, week: 2, date: 'July 13', day: 'Sunday Morning', time: '10:30 AM', teamA: 'RealMadrid', teamB: 'Manchester' },
+      { id: 17, week: 3, date: 'July 19', day: 'Saturday Evening', time: '8:00 PM', teamA: 'Barcelona', teamB: 'Chelsea' },
+      { id: 18, week: 3, date: 'July 19', day: 'Saturday Evening', time: '8:30 PM', teamA: 'RealMadrid', teamB: 'Juventus' },
+      { id: 19, week: 3, date: 'July 19', day: 'Saturday Evening', time: '9:00 PM', teamA: 'Barcelona', teamB: 'Manchester' },
+      { id: 20, week: 3, date: 'July 19', day: 'Saturday Evening', time: '9:30 PM', teamA: 'Juventus', teamB: 'Chelsea', onComplete: updateSemifinalMatch },
       { id: 21, week: 3, date: 'July 20', day: 'Sunday Morning', time: '9:00 AM', teamA: 'TBD', teamB: 'TBD', isSF: true },
       { id: 22, week: 3, date: 'July 20', day: 'Sunday Morning', time: '9:30 AM', teamA: 'TBD', teamB: 'TBD', isFinal: true }
     ];
