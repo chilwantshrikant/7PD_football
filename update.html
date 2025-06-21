@@ -223,32 +223,39 @@
       document.getElementById(id).style.display = 'block';
     }
 
-    function updateLeaderboard(teamA, teamB, scoreA, scoreB) {
-      leaderboard[teamA].MP++;
-      leaderboard[teamB].MP++;
-      leaderboard[teamA].GF += scoreA;
-      leaderboard[teamA].GA += scoreB;
-      leaderboard[teamB].GF += scoreB;
-      leaderboard[teamB].GA += scoreA;
+      function applyMatchResult(teamA, teamB, scoreA, scoreB, multiplier) {
+        // multiplier is 1 to add a result, -1 to reverse a result
 
-      if (scoreA > scoreB) {
-        leaderboard[teamA].W++;
-        leaderboard[teamB].L++;
-        leaderboard[teamA].Pts += 3;
-      } else if (scoreA < scoreB) {
-        leaderboard[teamB].W++;
-        leaderboard[teamA].L++;
-        leaderboard[teamB].Pts += 3;
-      } else {
-        leaderboard[teamA].D++;
-        leaderboard[teamB].D++;
-        leaderboard[teamA].Pts++;
-        leaderboard[teamB].Pts++;
+        // Update matches played
+        leaderboard[teamA].MP += 1 * multiplier;
+        leaderboard[teamB].MP += 1 * multiplier;
+
+        // Goals for/against
+        leaderboard[teamA].GF += scoreA * multiplier;
+        leaderboard[teamA].GA += scoreB * multiplier;
+        leaderboard[teamB].GF += scoreB * multiplier;
+        leaderboard[teamB].GA += scoreA * multiplier;
+
+        // Compute who won/draw
+        if (scoreA > scoreB) {
+          leaderboard[teamA].W += 1 * multiplier;
+          leaderboard[teamB].L += 1 * multiplier;
+          leaderboard[teamA].Pts += 3 * multiplier;
+        } else if (scoreA < scoreB) {
+          leaderboard[teamB].W += 1 * multiplier;
+          leaderboard[teamA].L += 1 * multiplier;
+          leaderboard[teamB].Pts += 3 * multiplier;
+        } else {
+          leaderboard[teamA].D += 1 * multiplier;
+          leaderboard[teamB].D += 1 * multiplier;
+          leaderboard[teamA].Pts += 1 * multiplier;
+          leaderboard[teamB].Pts += 1 * multiplier;
+        }
+
+        // Goal Difference
+        leaderboard[teamA].GD = leaderboard[teamA].GF - leaderboard[teamA].GA;
+        leaderboard[teamB].GD = leaderboard[teamB].GF - leaderboard[teamB].GA;
       }
-
-      leaderboard[teamA].GD = leaderboard[teamA].GF - leaderboard[teamA].GA;
-      leaderboard[teamB].GD = leaderboard[teamB].GF - leaderboard[teamB].GA;
-    }
 
     function updateLeaderboardUI() {
       const tbody = document.getElementById('leaderboard-body');
@@ -307,41 +314,73 @@
       btn.textContent = "Submit";
       btn.onclick = () => submitScore(matchId, teamA, teamB, btn);
     }
-    function submitScore(matchId, teamA, teamB, btn) {
-      const row = btn.closest('tr');
-      const scoreAInput = row.querySelector('.scoreA');
-      const scoreBInput = row.querySelector('.scoreB');
-      const scoreA = parseInt(scoreAInput.value);
-      const scoreB = parseInt(scoreBInput.value);
+    // function submitScore(matchId, teamA, teamB, btn) {
+    //   const row = btn.closest('tr');
+    //   const scoreAInput = row.querySelector('.scoreA');
+    //   const scoreBInput = row.querySelector('.scoreB');
+    //   const scoreA = parseInt(scoreAInput.value);
+    //   const scoreB = parseInt(scoreBInput.value);
 
-      if (isNaN(scoreA) || isNaN(scoreB)) {
-        alert("Please enter valid scores.");
-        return;
-      }
+    //   if (isNaN(scoreA) || isNaN(scoreB)) {
+    //     alert("Please enter valid scores.");
+    //     return;
+    //   }
 
-      const isEdit = matchResults[matchId];
-      if (isEdit) {
-        // Revert leaderboard before updating
-        const previous = matchResults[matchId];
-        updateLeaderboard(previous.teamA, previous.teamB, -previous.scoreA, -previous.scoreB);
-      }
+    //   const isEdit = matchResults[matchId];
+    //   if (isEdit) {
+    //     // Revert leaderboard before updating
+    //     const previous = matchResults[matchId];
+    //     updateLeaderboard(previous.teamA, previous.teamB, -previous.scoreA, -previous.scoreB);
+    //   }
 
-      matchResults[matchId] = { teamA, teamB, scoreA, scoreB };
-      updateLeaderboard(teamA, teamB, scoreA, scoreB);
-      updateLeaderboardUI();
+    //   matchResults[matchId] = { teamA, teamB, scoreA, scoreB };
+    //   updateLeaderboard(teamA, teamB, scoreA, scoreB);
+    //   updateLeaderboardUI();
 
-      scoreAInput.disabled = true;
-      scoreBInput.disabled = true;
-      btn.textContent = "Edit";
-      btn.onclick = () => enableEdit(matchId, teamA, teamB, btn);
+    //   scoreAInput.disabled = true;
+    //   scoreBInput.disabled = true;
+    //   btn.textContent = "Edit";
+    //   btn.onclick = () => enableEdit(matchId, teamA, teamB, btn);
 
-        if (matchId === 20) {
-        updateSemifinalMatch();
-        } else if (matchId === 21) {
-        const winner = scoreA > scoreB ? teamA : scoreB > scoreA ? teamB : null;
-        if (winner) updateFinalMatch(winner);
+    //     if (matchId === 20) {
+    //     updateSemifinalMatch();
+    //     } else if (matchId === 21) {
+    //     const winner = scoreA > scoreB ? teamA : scoreB > scoreA ? teamB : null;
+    //     if (winner) updateFinalMatch(winner);
+    //     }
+    // }
+      function submitScore(matchId, teamA, teamB, btn) {
+        const row = btn.closest('tr');
+        const scoreA = parseInt(row.querySelector('.scoreA').value);
+        const scoreB = parseInt(row.querySelector('.scoreB').value);
+
+        if (isNaN(scoreA) || isNaN(scoreB)) {
+          alert('Please enter valid scores.');
+          return;
         }
-    }
+
+        // Reverse old result if exists
+        const previous = matchResults[matchId];
+        if (previous) {
+          applyMatchResult(previous.teamA, previous.teamB, previous.scoreA, previous.scoreB, -1); 
+        }
+
+        // Save new result
+        matchResults[matchId] = { teamA, teamB, scoreA, scoreB };
+        applyMatchResult(teamA, teamB, scoreA, scoreB, 1);
+
+        updateLeaderboardUI();
+
+        // Lock inputs
+        row.querySelector('.scoreA').disabled = true;
+        row.querySelector('.scoreB').disabled = true;
+        btn.textContent = "Edit";
+        btn.onclick = () => enableEdit(matchId, teamA, teamB, btn);
+
+        // Save to Firestore if you want
+      }
+
+
     function enableEdit(matchId, teamA, teamB, btn) {
       const row = btn.closest('tr');
       row.querySelector('.scoreA').disabled = false;
